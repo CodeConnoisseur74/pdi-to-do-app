@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+# replaced with database
 tasks = []
 
 
@@ -16,7 +17,9 @@ def display_menu():
 # Add tasks to list
 def add_task():
     task = input("Enter a task: ")
-    tasks.append({"task": task, "completed": False})
+    tasks.append(
+        {"task": task, "completed": False}
+    )  # new function to add to database(task)
     print("Task added!")
 
 
