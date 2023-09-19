@@ -1,7 +1,10 @@
 from __future__ import annotations
 
-# replaced with database
-tasks = []
+from db import add_task
+from db import delete_task
+from db import mark_task_complete
+from db import quit_program
+from db import view_tasks
 
 
 # Main menu
@@ -14,66 +17,36 @@ def display_menu():
     print("5. Quit")
 
 
-# Add tasks to list
-def add_task():
-    task = input("Enter a task: ")
-    tasks.append(
-        {"task": task, "completed": False}
-    )  # new function to add to database(task)
-    print("Task added!")
+def add_task_from_user_input():
+    title = input("Enter task title: ")
+    add_task(title)
 
 
-# View available tasks
-def view_tasks():
-    print("\nTasks:")
-    for index, task in enumerate(tasks):
-        status = "Completed" if task["completed"] else "Not Completed"
-        print(f"{index + 1}. {task['task']} - {status}")
-
-
-# Mark tasks as complete
-def complete_task(index):
-    if 0 <= index < len(tasks):
-        tasks[index]["completed"] = True
-        print("Task marked complete!")
-    else:
-        print("Invalid task number.")
-
-
-# Delete tasks
-def delete_task(index):
-    if 0 <= index < len(tasks):
-        del tasks[index]
-        print("Task deleted!")
-    else:
-        print("Invalid task number.")
+def print_tasks():
+    tasks = view_tasks()
+    for task in tasks:
+        print(f"{task.id}. {task.title} - {task.completed}")
 
 
 # Prompt user for task completion
 def complete_task_prompt():
     view_tasks()
-    index = int(input("Enter the number of the tasks to mark complete: ")) - 1
-    complete_task(index)
+    task_id = int(input("Enter the number of the tasks to mark complete: "))
+    mark_task_complete(task_id)
 
 
 # Prompt user for task deletion
 def delete_task_prompt():
     view_tasks()
-    index = int(input("Enter the number of the task to delete: ")) - 1
-    delete_task(index)
-
-
-# Quit the program
-def quit_program():
-    print("Thank you for using the To-Do List!")
-    exit()
+    task_id = int(input("Enter the number of the task to delete: "))
+    delete_task(task_id)
 
 
 # Main function to handle user input
 def main():
     actions = {
-        "1": add_task,
-        "2": view_tasks,
+        "1": add_task_from_user_input,
+        "2": print_tasks,
         "3": complete_task_prompt,
         "4": delete_task_prompt,
         "5": quit_program,
