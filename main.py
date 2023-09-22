@@ -17,6 +17,7 @@ def display_menu():
     print("5. Quit")
 
 
+# User Input
 def add_task_from_user_input():
     title = input("Enter task title: ")
     add_task(title)
