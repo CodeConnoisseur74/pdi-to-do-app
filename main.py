@@ -5,6 +5,7 @@ from db import delete_task
 from db import mark_task_complete
 from db import quit_program
 from db import view_tasks
+from db import create_tables
 
 
 # Main menu
@@ -45,6 +46,8 @@ def delete_task_prompt():
 
 # Main function to handle user input
 def main():
+    create_tables()
+
     actions = {
         "1": add_task_from_user_input,
         "2": print_tasks,

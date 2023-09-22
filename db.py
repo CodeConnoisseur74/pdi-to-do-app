@@ -8,8 +8,8 @@ from sqlmodel import SQLModel
 # Set up the SQLite database engine.
 engine = create_engine("sqlite:///database.db")
 
-# Create the table
-SQLModel.metadata.create_all(engine)
+def create_tables():
+    SQLModel.metadata.create_all(engine)
 
 
 class Todo(SQLModel, table=True):
