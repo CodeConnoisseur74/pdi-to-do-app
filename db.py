@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from datetime import date
+
 from sqlmodel import create_engine
 from sqlmodel import Field
 from sqlmodel import Session
@@ -7,6 +9,7 @@ from sqlmodel import SQLModel
 
 # Set up the SQLite database engine.
 engine = create_engine("sqlite:///database.db")
+
 
 def create_tables():
     SQLModel.metadata.create_all(engine)
@@ -16,11 +19,12 @@ class Todo(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
     title: str
     completed: bool
+    due_date: date
 
 
-def add_task(title: str, completed: bool = False):
+def add_task(title: str, completed: bool = False, due_date: date = None):
     with Session(engine) as session:
-        task = Todo(title=title, completed=completed)
+        task = Todo(title=title, completed=completed, due_date=due_date)
         session.add(task)
         session.commit()
 
