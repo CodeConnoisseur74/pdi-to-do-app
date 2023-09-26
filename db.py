@@ -11,6 +11,7 @@ from sqlmodel import SQLModel
 engine = create_engine("sqlite:///database.db")
 
 
+# Test by drop_all is temporary
 def create_tables():
     SQLModel.metadata.create_all(engine)
 
@@ -19,7 +20,7 @@ class Todo(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
     title: str
     completed: bool
-    due_date: date
+    due_date: date | None
 
 
 def add_task(title: str, completed: bool = False, due_date: date = None):

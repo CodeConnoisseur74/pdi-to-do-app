@@ -23,16 +23,27 @@ def display_menu():
 # User Input
 def add_task_from_user_input():
     title = input("Enter task title: ")
-    due_date_str = input("Enter due date (YYYY-MM-DD) ")
-    try:
-        due_date = date.fromisoformat(due_date_str)
-    except ValueError:
-        print("Invalide date format. Please use YYYY-MM-DD.")
-        return
+
+    while True:
+        due_date_str = input("Enter due date (YYYY-MM-DD) ")
+        try:
+            due_date = date.fromisoformat(due_date_str)
+            if due_date < date.today():
+                print(
+                    """
+                      Due date cannot be in the past.
+                      Please enter a valid date.
+                      """
+                )
+                continue
+            break
+        except ValueError:
+            print("Invalid date format. Please use YYYY-MM-DD")
 
     add_task(title, due_date=due_date)
 
 
+# Displays task and status to user
 def print_tasks():
     tasks = view_tasks()
     for task in tasks:
