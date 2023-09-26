@@ -1,11 +1,13 @@
 from __future__ import annotations
 
+from datetime import date
+
 from db import add_task
+from db import create_tables
 from db import delete_task
 from db import mark_task_complete
 from db import quit_program
 from db import view_tasks
-from db import create_tables
 
 
 # Main menu
@@ -21,9 +23,27 @@ def display_menu():
 # User Input
 def add_task_from_user_input():
     title = input("Enter task title: ")
-    add_task(title)
+
+    while True:
+        due_date_str = input("Enter due date (YYYY-MM-DD) ")
+        try:
+            due_date = date.fromisoformat(due_date_str)
+            if due_date < date.today():
+                print(
+                    """
+                      Due date cannot be in the past.
+                      Please enter a valid date.
+                      """
+                )
+                continue
+            break
+        except ValueError:
+            print("Invalid date format. Please use YYYY-MM-DD")
+
+    add_task(title, due_date=due_date)
 
 
+# Displays task and status to user
 def print_tasks():
     tasks = view_tasks()
     for task in tasks:
